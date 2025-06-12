@@ -58,8 +58,8 @@ Untuk menjalankan proyek ini di lingkungan lokal Anda, ikuti langkah-langkah ber
 
 1.  **Clone repository ini:**
     ```bash
-    git clone [https://github.com/](https://github.com/)[USERNAME_ANDA]/[NAMA_REPO_ANDA].git
-    cd [NAMA_REPO_ANDA]
+    git clone https://github.com/bangaji313/Recommender-System-MovieLens.git
+    cd Recommender-System-MovieLens
     ```
 
 2.  **(Opsional tapi direkomendasikan) Buat virtual environment:**
