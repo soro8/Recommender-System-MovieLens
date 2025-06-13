@@ -77,18 +77,20 @@ Pada tahap EDA, beberapa visualisasi dibuat untuk mendapatkan wawasan dari data.
 
 ## 4. Data Preparation
 
-Proses persiapan data dilakukan secara terpisah untuk kedua model.
+Proses persiapan data dilakukan melalui beberapa tahapan untuk memastikan data siap untuk dianalisis dan dimodelkan.
 
-### 4.1. Persiapan Data untuk Content-Based Filtering
+### 4.1. Persiapan Data Umum
+Langkah pertama yang dilakukan adalah menggabungkan dataset `ratings` dan `movies` menjadi satu DataFrame.
+-   **Penggabungan Data**: Proses `merge` dilakukan berdasarkan kolom `movieId`. **Alasan**: Ini bertujuan untuk memudahkan proses analisis data eksplorasi (EDA), di mana kita bisa melihat judul dan genre film secara langsung bersamaan dengan rating yang diberikan oleh pengguna.
 
+### 4.2. Persiapan Data untuk Model Content-Based Filtering
 Tujuan utama di sini adalah mengubah fitur `genres` menjadi vektor numerik yang dapat diukur kemiripannya.
--   **Pembersihan Data Genre**: Data dengan genre `(no genres listed)` dihapus karena tidak memberikan informasi.
+-   **Pembersihan Data Genre**: Data dengan genre `(no genres listed)` dihapus dari DataFrame `movies` karena tidak memberikan informasi konten.
 -   **TF-IDF Vectorization**: Teknik TF-IDF diterapkan pada kolom `genres`. **Alasan**: TF-IDF mampu memberikan bobot yang lebih tinggi pada genre yang lebih "unik" untuk sebuah film, sehingga representasi vektornya menjadi lebih bermakna dibandingkan hanya menghitung frekuensi kemunculan.
 
-### 4.2. Persiapan Data untuk Collaborative Filtering
-
+### 4.3. Persiapan Data untuk Model Collaborative Filtering
 Tujuan di sini adalah mempersiapkan data interaksi pengguna untuk model Deep Learning.
--   **Encoding Fitur**: `userId` dan `movieId` diubah menjadi indeks integer yang berurutan (mulai dari 0). **Alasan**: Lapisan *Embedding* pada Keras/TensorFlow memerlukan input berupa indeks integer untuk dapat memetakan setiap ID ke vektor latennya.
+-   **Encoding Fitur**: `userId` dan `movieId` diubah menjadi indeks integer yang berurutan (mulai dari 0). **Alasan**: Lapisan *Embedding* pada Keras/TensorFlow memerlukan input berupa indeks integer untuk dapat memetakan setiap ID ke vektor latennya secara efisien.
 -   **Normalisasi Rating**: Nilai `rating` dinormalisasi ke dalam rentang [0, 1]. **Alasan**: Model *neural network*, terutama dengan fungsi aktivasi sigmoid di akhir, bekerja paling baik dengan nilai target dalam rentang ini, yang membantu proses konvergensi saat pelatihan.
 -   **Pembagian Data**: Data dibagi menjadi 80% data latih dan 20% data validasi untuk melatih dan mengevaluasi model secara adil.
 
@@ -126,21 +128,35 @@ Dua model dikembangkan sesuai dengan pendekatan yang telah direncanakan.
 
 ## 6. Evaluation
 
+Pada tahap evaluasi, kita akan menganalisis hasil dari kedua model yang telah kita kembangkan. Setiap model memiliki metrik evaluasi yang sesuai dengan pendekatannya.
+
 ### 6.1. Evaluasi Content-Based Filtering
 
-Evaluasi dilakukan secara **kualitatif**. Dengan melihat hasil rekomendasi untuk "Toy Story (1995)", model memberikan film-film animasi lain yang genrenya sangat mirip. Hal ini menunjukkan model bekerja sesuai harapan dan logis.
+Model ini dievaluasi secara kuantitatif menggunakan metrik **Precision@k**.
+
+-   **Penjelasan Metrik Precision@k**: Metrik ini mengukur proporsi item yang relevan dari 'k' item teratas yang direkomendasikan. Dalam konteks ini, "item relevan" didefinisikan sebagai film yang juga disukai oleh pengguna. Formula Precision@k adalah:
+    $$\text{Precision@k} = \frac{\text{|(Item Rekomendasi @k)} \cap \text{(Item Relevan)}|}{k}$$
+-   **Metodologi Perhitungan**: Untuk menghitung Precision@k, dilakukan sebuah simulasi:
+    1.  Untuk setiap pengguna, satu film yang ia sukai (rating ≥ 4.0) diambil sebagai "pemicu" rekomendasi.
+    2.  Model Content-Based memberikan 10 rekomendasi film teratas (k=10) berdasarkan film pemicu tersebut.
+    3.  Kita kemudian memeriksa berapa banyak dari 10 rekomendasi tersebut yang juga termasuk dalam daftar film lain yang disukai pengguna.
+    4.  Nilai presisi dihitung untuk setiap pengguna dan kemudian dirata-ratakan untuk mendapatkan nilai Precision@10 secara keseluruhan.
+-   **Hasil**: Setelah menjalankan simulasi, model Content-Based Filtering kami mencapai **Precision@10 sebesar 14.8%**.
+-   **Analisis**: Nilai ini menunjukkan bahwa dari 10 film yang direkomendasikan berdasarkan genre, sekitar 1-2 film di antaranya kemungkinan besar juga merupakan film yang disukai pengguna. Meskipun angka ini terlihat kecil, dalam konteks sistem rekomendasi, ini adalah hasil yang cukup baik yang menunjukkan bahwa model mampu secara konsisten menemukan item yang relevan.
+
+Secara kualitatif, model ini juga terbukti logis. Saat merekomendasikan film berdasarkan "Toy Story (1995)", hasilnya adalah film-film animasi lain yang genrenya sangat mirip, seperti "Antz (1998)" dan "Monsters, Inc. (2001)".
 
 ### 6.2. Evaluasi Collaborative Filtering
 
-Evaluasi model ini menggunakan metrik **Root Mean Squared Error (RMSE)**. RMSE mengukur rata-rata magnitudo kesalahan antara rating yang diprediksi dan rating sebenarnya. Nilai yang lebih rendah menandakan model lebih akurat.
+Model ini dievaluasi menggunakan metrik **Root Mean Squared Error (RMSE)**.
 
-Formula RMSE: $$RMSE = \sqrt{\frac{1}{n}\sum_{i=1}^{n}(y_i - \hat{y}_i)^2}$$
-
-![Metrik Pelatihan Model](images/Model%20Metrics.png)
-
-*Gambar 4. Grafik metrik RMSE selama proses pelatihan.*
-
-Dari grafik, terlihat nilai RMSE untuk data latih dan validasi sama-sama menurun dan stabil, menunjukkan model belajar dengan baik tanpa *overfitting*. Nilai akhir **val_root_mean_squared_error** yang stabil di sekitar **0.205** menunjukkan tingkat kesalahan prediksi rating yang rendah.
+-   **Penjelasan Metrik RMSE**: RMSE mengukur rata-rata magnitudo kesalahan antara rating yang diprediksi oleh model dengan rating yang sebenarnya diberikan oleh pengguna. Nilai yang lebih rendah menandakan model lebih akurat. Formula RMSE:
+    $$RMSE = \sqrt{\frac{1}{n}\sum_{i=1}^{n}(y_i - \hat{y}_i)^2}$$
+-   **Hasil**:
+    ![Metrik Pelatihan Model](images/Model%20Metrics.png)
+    
+    *Gambar 4. Grafik metrik RMSE selama proses pelatihan.*
+-   **Analisis**: Dari grafik, terlihat nilai RMSE untuk data latih dan validasi sama-sama menurun dan stabil. Nilai akhir **val_root_mean_squared_error** yang konsisten di sekitar **0.205** menunjukkan tingkat kesalahan prediksi rating yang rendah dan model dapat melakukan generalisasi dengan baik pada data yang belum pernah dilihatnya.
 
 ## 7. Daftar Referensi
 Ricci, F., Rokach, L., & Shapira, B. (2011). Introduction to Recommender Systems Handbook. In *Recommender Systems Handbook* (pp. 1-35). Springer, Boston, MA.
