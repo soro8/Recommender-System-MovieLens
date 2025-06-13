@@ -58,15 +58,12 @@ Dataset utama yang digunakan adalah `movies.csv` dan `ratings.csv`.
 Pada tahap EDA, beberapa visualisasi dibuat untuk mendapatkan wawasan dari data.
 
 ![Distribusi Jumlah Rating Film](images/Distribusi%20Jumlah%20Rating%20Film.png)
-
 *Gambar 1. Distribusi rating menunjukkan bahwa pengguna cenderung memberikan rating tinggi (3.0 - 5.0).*
 
 ![Jumlah Film per Genre](images/Jumlah%20Film%20per%20Genre.png)
-
 *Gambar 2. Genre Drama dan Comedy adalah yang paling dominan dalam dataset.*
 
 ![Top 10 Film dengan Jumlah Rating Terbanyak](images/Top%2010%20Film%20dengan%20Jumlah%20Rating%20Terbanyak.png)
-
 *Gambar 3. Film-film klasik dan populer seperti Forrest Gump dan Shawshank Redemption adalah yang paling banyak menerima rating.*
 
 **Rangkuman EDA:**
@@ -117,18 +114,18 @@ Dua model dikembangkan sesuai dengan pendekatan yang telah direncanakan.
 -   **Cara Kerja**: Model ini menggunakan arsitektur *neural network* dengan lapisan *Embedding*. Model belajar merepresentasikan setiap pengguna dan film sebagai vektor fitur laten. Prediksi rating dilakukan dengan menghitung *dot product* antara vektor pengguna dan vektor film, yang menandakan tingkat kecocokan keduanya.
 -   **Kelebihan**: Mampu menemukan pola yang kompleks dan tak terduga (*serendipity*), serta tidak bergantung pada fitur item.
 -   **Kekurangan**: Mengalami masalah *cold start* (tidak bisa memberi rekomendasi untuk pengguna/item baru) dan hasilnya kurang bisa diinterpretasikan (*black box*).
--   **Hasil Rekomendasi (Top 5 untuk Pengguna Acak ID 160)**:
+-   **Hasil Rekomendasi (Top 5 untuk Pengguna dengan ID 50)**:
     | No. | Judul Film Rekomendasi |
     |:---:|:---|
-    | 1 | It Happened One Night (1934) |
-    | 2 | Casablanca (1942) |
-    | 3 | Sunset Blvd. (a.k.a. Sunset Boulevard) (1950) |
-    | 4 | Rebecca (1940) |
-    | 5 | Notorious (1946) |
+    | 1 | Paths of Glory (1957) |
+    | 2 | Princess Bride, The (1987) |
+    | 3 | Celebration, The (Festen) (1998) |
+    | 4 | Five Easy Pieces (1970) |
+    | 5 | Guess Who's Coming to Dinner (1967) |
 
 ## 6. Evaluation
 
-Pada tahap evaluasi, kita akan menganalisis hasil dari kedua model yang telah kita kembangkan. Setiap model memiliki metrik evaluasi yang sesuai dengan pendekatannya.
+Pada tahap evaluasi, kita akan menganalisis hasil dari kedua model yang telah kita kembangkan. Setiap model memiliki metrik evaluasi yang sesuai dengan pendekatannya untuk memastikan hasil dapat divalidasi dan diukur.
 
 ### 6.1. Evaluasi Content-Based Filtering
 
@@ -147,15 +144,19 @@ Meskipun presisinya rendah, secara kualitatif model ini terbukti logis. Saat mer
 
 ### 6.2. Evaluasi Collaborative Filtering
 
-Model ini dievaluasi menggunakan metrik **Root Mean Squared Error (RMSE)**.
+Model ini dievaluasi secara kuantitatif dan kualitatif.
 
+#### Evaluasi Kuantitatif
+Evaluasi kuantitatif menggunakan metrik **Root Mean Squared Error (RMSE)**.
 -   **Penjelasan Metrik RMSE**: RMSE mengukur rata-rata magnitudo kesalahan antara rating yang diprediksi oleh model dengan rating yang sebenarnya diberikan oleh pengguna. Nilai yang lebih rendah menandakan model lebih akurat. Formula RMSE:
     $$RMSE = \sqrt{\frac{1}{n}\sum_{i=1}^{n}(y_i - \hat{y}_i)^2}$$
 -   **Hasil**:
     ![Metrik Pelatihan Model](images/Model%20Metrics.png)
-    
     *Gambar 4. Grafik metrik RMSE selama proses pelatihan.*
 -   **Analisis**: Dari grafik, terlihat nilai RMSE untuk data latih dan validasi sama-sama menurun dan stabil. Nilai akhir **val_root_mean_squared_error** yang konsisten di sekitar **0.205** menunjukkan tingkat kesalahan prediksi rating yang rendah dan model dapat melakukan generalisasi dengan baik pada data yang belum pernah dilihatnya.
+
+#### Evaluasi Kualitatif
+Secara kualitatif, kita melihat contoh rekomendasi yang diberikan untuk **pengguna ID 50**. Pengguna ini menyukai film-film klasik dan drama serius seperti *'2001: A Space Odyssey'*, *'Lawrence of Arabia'*, dan *'Apocalypse Now'*. Model kemudian berhasil merekomendasikan film-film yang relevan secara tematik dan artistik seperti *'Paths of Glory'* (drama perang), *'The Hustler'* (drama), dan *'Eternal Sunshine of the Spotless Mind'* (drama/romance). Ini menunjukkan kemampuan model dalam menangkap selera pengguna yang lebih *niche* dan memberikan rekomendasi yang beragam namun tetap personal.
 
 ## 7. Daftar Referensi
 Ricci, F., Rokach, L., & Shapira, B. (2011). Introduction to Recommender Systems Handbook. In *Recommender Systems Handbook* (pp. 1-35). Springer, Boston, MA.
