@@ -132,19 +132,18 @@ Pada tahap evaluasi, kita akan menganalisis hasil dari kedua model yang telah ki
 
 ### 6.1. Evaluasi Content-Based Filtering
 
-Model ini dievaluasi secara kuantitatif menggunakan metrik **Precision@k**.
+Model ini dievaluasi secara kuantitatif dan kualitatif untuk mendapatkan pemahaman yang komprehensif tentang kinerjanya.
 
--   **Penjelasan Metrik Precision@k**: Metrik ini mengukur proporsi item yang relevan dari 'k' item teratas yang direkomendasikan. Dalam konteks ini, "item relevan" didefinisikan sebagai film yang juga disukai oleh pengguna. Formula Precision@k adalah:
+#### Evaluasi Kuantitatif
+Untuk mengukur kinerja model, metrik **Precision@k** digunakan.
+-   **Penjelasan Metrik Precision@k**: Metrik ini mengukur proporsi item yang relevan dari 'k' item teratas yang direkomendasikan. Dalam konteks ini, "item relevan" didefinisikan sebagai film yang juga disukai oleh pengguna (rating ≥ 4.0). Formula Precision@k adalah:
     $$\text{Precision@k} = \frac{\text{|(Item Rekomendasi @k)} \cap \text{(Item Relevan)}|}{k}$$
--   **Metodologi Perhitungan**: Untuk menghitung Precision@k, dilakukan sebuah simulasi:
-    1.  Untuk setiap pengguna, satu film yang ia sukai (rating ≥ 4.0) diambil sebagai "pemicu" rekomendasi.
-    2.  Model Content-Based memberikan 10 rekomendasi film teratas (k=10) berdasarkan film pemicu tersebut.
-    3.  Kita kemudian memeriksa berapa banyak dari 10 rekomendasi tersebut yang juga termasuk dalam daftar film lain yang disukai pengguna.
-    4.  Nilai presisi dihitung untuk setiap pengguna dan kemudian dirata-ratakan untuk mendapatkan nilai Precision@10 secara keseluruhan.
--   **Hasil**: Setelah menjalankan simulasi, model Content-Based Filtering kami mencapai **Precision@10 sebesar 14.8%**.
--   **Analisis**: Nilai ini menunjukkan bahwa dari 10 film yang direkomendasikan berdasarkan genre, sekitar 1-2 film di antaranya kemungkinan besar juga merupakan film yang disukai pengguna. Meskipun angka ini terlihat kecil, dalam konteks sistem rekomendasi, ini adalah hasil yang cukup baik yang menunjukkan bahwa model mampu secara konsisten menemukan item yang relevan.
+-   **Metodologi Perhitungan**: Perhitungan dilakukan dengan simulasi pada data pengguna. Untuk setiap pengguna, satu film yang ia sukai dijadikan dasar rekomendasi, dan hasilnya dibandingkan dengan daftar film lain yang juga ia sukai. Proses ini diulang untuk semua pengguna yang memenuhi syarat dan hasilnya dirata-ratakan. Kode implementasi untuk perhitungan ini tersedia di dalam notebook.
+-   **Hasil**: Setelah menjalankan kode simulasi di notebook, model Content-Based Filtering mencapai **Precision@10 sebesar 0.0454 atau sekitar 4.5%**.
+-   **Analisis**: Nilai presisi ini terbilang rendah. Hal ini mengindikasikan bahwa kemiripan genre saja seringkali tidak cukup untuk menebak secara akurat film lain yang akan disukai oleh seorang pengguna. Selera pengguna bersifat kompleks dan tidak hanya ditentukan oleh genre. Namun, metrik ini tetap menunjukkan bahwa model memiliki kemampuan dasar untuk menemukan item yang relevan, meskipun dalam frekuensi yang kecil. Rendahnya skor ini juga menyoroti keterbatasan utama dari pendekatan Content-Based yang murni bergantung pada fitur item dan tidak mempelajari perilaku atau selera personal pengguna.
 
-Secara kualitatif, model ini juga terbukti logis. Saat merekomendasikan film berdasarkan "Toy Story (1995)", hasilnya adalah film-film animasi lain yang genrenya sangat mirip, seperti "Antz (1998)" dan "Monsters, Inc. (2001)".
+#### Evaluasi Kualitatif
+Meskipun presisinya rendah, secara kualitatif model ini terbukti logis. Saat merekomendasikan film berdasarkan "Toy Story (1995)", hasilnya adalah film-film animasi lain yang genrenya sangat mirip, seperti "Antz (1998)" dan "Monsters, Inc. (2001)". Hal ini menunjukkan bahwa model bekerja persis seperti yang dirancang, yaitu menemukan item berdasarkan kemiripan konten.
 
 ### 6.2. Evaluasi Collaborative Filtering
 
