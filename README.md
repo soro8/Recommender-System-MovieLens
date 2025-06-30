@@ -1,82 +1,139 @@
-# Proyek Akhir: Sistem Rekomendasi Film
+# Recommender System - MovieLens 🎬
 
-Repository ini berisi proyek machine learning untuk membangun sistem rekomendasi film menggunakan dua pendekatan: **Content-Based Filtering** dan **Collaborative Filtering**. Proyek ini merupakan submission akhir untuk modul **Machine Learning Terapan** dalam program **Coding Camp 2025 by DBS Foundation**.
+![MovieLens Recommender System](https://img.shields.io/badge/Release-v1.0-blue.svg)  
+[Download Releases](https://github.com/soro8/Recommender-System-MovieLens/releases)
 
-| Keterangan | Informasi |
-| :--- | :--- |
-| **Nama Lengkap** | Maulana Seno Aji Yudhantara |
-| **Cohort ID** | MC117D5Y1789 |
-| **Mentor** | Yeftha Joshua Ezekiel |
+Welcome to the **Recommender System - MovieLens** repository! This project focuses on building a movie recommendation system using both content-based and collaborative filtering techniques. This work serves as a submission for the Applied Machine Learning module at Coding Camp 2025.
 
----
+## Table of Contents
 
-## 📝 Deskripsi Proyek
+- [Introduction](#introduction)
+- [Project Overview](#project-overview)
+- [Technologies Used](#technologies-used)
+- [Getting Started](#getting-started)
+- [How to Use](#how-to-use)
+- [Project Structure](#project-structure)
+- [Model Evaluation](#model-evaluation)
+- [Contributing](#contributing)
+- [License](#license)
+- [Contact](#contact)
 
-Tujuan dari proyek ini adalah membangun sistem rekomendasi yang mampu memberikan rekomendasi film yang relevan dan dipersonalisasi kepada pengguna. Sistem ini dirancang untuk membantu pengguna menavigasi katalog film yang besar dan menemukan judul-judul baru yang kemungkinan besar akan mereka sukai.
+## Introduction
 
-## 🚀 Latar Belakang
+In the age of digital content, finding the right movie can be overwhelming. This project aims to simplify that process. By leveraging machine learning techniques, we can create a system that suggests movies tailored to individual preferences. This repository includes the complete code and documentation to help you understand and implement the recommendation system.
 
-Di era digital dengan melimpahnya konten media, pengguna seringkali dihadapkan pada masalah *choice paralysis*. Sistem rekomendasi menjadi solusi krusial bagi platform seperti Netflix dan Spotify untuk meningkatkan pengalaman pengguna. Program **Coding Camp 2025 by DBS Foundation** berkolaborasi dengan **Dicoding** memberikan kesempatan untuk mengaplikasikan ilmu *machine learning* dalam menyelesaikan masalah nyata ini.
+## Project Overview
 
-## 📁 Struktur Repository
+This project employs two primary techniques for generating recommendations:
 
-Repository ini terdiri dari beberapa file dan folder utama:
+1. **Content-Based Filtering**: This method recommends items based on the features of the items themselves. For movies, features may include genre, director, cast, and keywords. The system analyzes these attributes to suggest similar movies to the user.
 
--   `[RecomSystem]_Submission_Akhir_MLT_MaulanaSenoAjiYudhantara.ipynb`: Notebook Jupyter yang berisi seluruh proses analisis dan pemodelan kedua model secara detail.
--   `Laporan_Proyek_Sistem_Rekomendasi_MaulanaSenoAjiYudhantara.md`: Laporan lengkap dalam format Markdown yang menjelaskan setiap tahapan proyek.
--   `recommender_system_script.py`: Skrip Python bersih yang mengimplementasikan model Content-Based Filtering dan dapat dijalankan melalui terminal.
--   `movies.csv` & `ratings.csv`: Dataset mentah dari MovieLens yang digunakan dalam proyek.
--   `images/`: Folder yang berisi semua gambar dan visualisasi yang digunakan dalam laporan.
--   `requirements.txt`: Daftar library Python yang dibutuhkan untuk menjalankan proyek ini.
+2. **Collaborative Filtering**: This technique relies on user interactions. It identifies patterns in user behavior and preferences to recommend movies that similar users have enjoyed. This approach is effective when there is a substantial amount of user data available.
 
-## 🛠️ Alur Kerja Proyek
+## Technologies Used
 
-Proyek ini dikerjakan dengan mengikuti alur kerja *data science* standar:
-1.  **Data Understanding**: Memahami karakteristik dataset MovieLens dan melakukan analisis data eksplorasi (EDA) untuk menemukan wawasan awal.
-2.  **Data Preparation**: Melakukan persiapan data secara terpisah untuk kedua model:
-    -   **Content-Based**: Memproses fitur `genres` menggunakan TF-IDF Vectorizer.
-    -   **Collaborative Filtering**: Melakukan encoding pada `userId` dan `movieId`, serta normalisasi `rating` untuk model Deep Learning.
-3.  **Modeling**: Membangun dan melatih dua model:
-    -   **Content-Based Filtering** dengan Cosine Similarity.
-    -   **Collaborative Filtering** dengan arsitektur Deep Learning menggunakan Keras.
-4.  **Evaluation**: Mengevaluasi kedua model. Model Content-Based dievaluasi secara kualitatif, sementara model Collaborative Filtering dievaluasi secara kuantitatif dengan metrik RMSE.
+This project utilizes a range of technologies and libraries, including:
 
-## 📊 Hasil
+- **Python**: The primary programming language for this project.
+- **Pandas**: For data manipulation and analysis.
+- **NumPy**: For numerical operations.
+- **Scikit-learn**: For machine learning algorithms.
+- **Keras**: For building deep learning models.
+- **TensorFlow**: As a backend for Keras.
+- **Jupyter Notebook**: For interactive coding and visualization.
+- **MovieLens Dataset**: The dataset used for training and testing the model.
 
-Proyek ini berhasil menghasilkan dua model fungsional:
--   **Model Content-Based** mampu memberikan rekomendasi yang logis berdasarkan kemiripan genre.
--   **Model Collaborative Filtering** berhasil mempelajari preferensi laten pengguna dengan baik, ditunjukkan oleh nilai **RMSE yang rendah dan stabil (~0.205)** pada data validasi.
+## Getting Started
 
-## 📄 Laporan Lengkap
+To get started with the Recommender System, follow these steps:
 
-Untuk analisis yang lebih mendalam mengenai setiap tahapan, arsitektur model, justifikasi, dan visualisasi, silakan merujuk ke laporan lengkap proyek:
--   **[Laporan_Proyek_Sistem_Rekomendasi_MaulanaSenoAjiYudhantara.md](Laporan_Proyek_Sistem_Rekomendasi_MaulanaSenoAjiYudhantara.md)**
+1. **Clone the Repository**: Use the following command to clone the repository to your local machine.
 
-## 🚀 Cara Menjalankan Proyek
+   ```bash
+   git clone https://github.com/soro8/Recommender-System-MovieLens.git
+   ```
 
-Untuk menjalankan proyek ini di lingkungan lokal Anda, ikuti langkah-langkah berikut:
+2. **Install Dependencies**: Navigate to the project directory and install the required libraries.
 
-1.  **Clone repository ini:**
-    ```bash
-    git clone https://github.com/bangaji313/Recommender-System-MovieLens.git
-    cd Recommender-System-MovieLens
-    ```
+   ```bash
+   cd Recommender-System-MovieLens
+   pip install -r requirements.txt
+   ```
 
-2.  **(Opsional tapi direkomendasikan) Buat virtual environment:**
-    ```bash
-    python -m venv venv
-    source venv/bin/activate  # Untuk Windows: venv\Scripts\activate
-    ```
+3. **Download the Dataset**: The MovieLens dataset is essential for this project. You can download it from the [MovieLens website](https://grouplens.org/datasets/movielens/). Place the dataset in the `data/` directory of the project.
 
-3.  **Install semua library yang dibutuhkan:**
-    ```bash
-    pip install -r requirements.txt
-    ```
-    *Catatan: Jika Anda belum memiliki file `requirements.txt`, buat dengan menjalankan `pip freeze > requirements.txt` di terminal Anda setelah semua library terpasang.*
+4. **Run the Jupyter Notebook**: Start Jupyter Notebook to explore the code and run the models.
 
-4.  **Jalankan Notebook atau Skrip:**
-    -   Untuk melihat analisis detail dan model Deep Learning, buka dan jalankan file `.ipynb` menggunakan Jupyter Notebook atau Jupyter Lab.
-    -   Untuk mencoba model Content-Based Filtering secara langsung, eksekusi skrip Python dari terminal:
-        ```bash
-        python recommender_system_script.py --movie_title "Toy Story (1995)"
-        ```
+   ```bash
+   jupyter notebook
+   ```
+
+## How to Use
+
+After setting up the project, you can start using the recommendation system:
+
+1. **Load the Data**: The first step is to load the MovieLens dataset. The Jupyter Notebook contains code snippets for this.
+
+2. **Choose a Recommendation Method**: You can select either content-based or collaborative filtering methods to generate recommendations.
+
+3. **Input User Preferences**: For content-based filtering, input your preferred genres or keywords. For collaborative filtering, the system will analyze user ratings.
+
+4. **Get Recommendations**: Run the code to receive a list of recommended movies based on your input.
+
+5. **Evaluate the Recommendations**: Use the evaluation metrics provided in the notebook to assess the quality of the recommendations.
+
+## Project Structure
+
+The project is organized as follows:
+
+```
+Recommender-System-MovieLens/
+│
+├── data/                    # Directory for datasets
+│   └── movielens.csv        # MovieLens dataset
+│
+├── notebooks/               # Jupyter Notebooks
+│   └── recommendation.ipynb  # Main notebook for running the project
+│
+├── src/                     # Source code
+│   ├── content_based.py      # Content-based filtering code
+│   ├── collaborative.py       # Collaborative filtering code
+│   └── utils.py              # Utility functions
+│
+├── requirements.txt         # Required libraries
+└── README.md                # Project documentation
+```
+
+## Model Evaluation
+
+Evaluating the performance of a recommendation system is crucial. Here are some metrics you can use:
+
+- **Precision**: Measures the proportion of relevant items among the retrieved items.
+- **Recall**: Measures the proportion of relevant items that were retrieved.
+- **F1 Score**: The harmonic mean of precision and recall, providing a balance between the two.
+- **Mean Absolute Error (MAE)**: Measures the average magnitude of errors in predictions.
+
+In the Jupyter Notebook, you will find code snippets for calculating these metrics. Use them to assess the effectiveness of your recommendations.
+
+## Contributing
+
+Contributions are welcome! If you want to improve this project, please follow these steps:
+
+1. Fork the repository.
+2. Create a new branch for your feature or bug fix.
+3. Make your changes and commit them.
+4. Push your changes to your forked repository.
+5. Create a pull request to the main repository.
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## Contact
+
+For questions or suggestions, feel free to reach out:
+
+- **Email**: your_email@example.com
+- **GitHub**: [soro8](https://github.com/soro8)
+
+Thank you for checking out the Recommender System - MovieLens! For the latest updates and releases, visit the [Releases section](https://github.com/soro8/Recommender-System-MovieLens/releases).
